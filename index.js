@@ -1,4 +1,5 @@
 let play = false;
+let attempts=5;
 let score;
 let counter; 
 let action;
@@ -25,10 +26,13 @@ document.getElementById('submit').onclick= function()
         play=true; //on clicking button, game starts, hence play = true.
         score = 0;
         counter=60;
+        attempts=5;
         //if not playing, initially set the value of inner Html score to 0 everytime.
         document.getElementById('plusScore').innerHTML = score;
         //Then, set timeRem as counter. 
         document.getElementById('timeRem').innerHTML = counter;
+        document.getElementById('remA').innerHTML = attempts;
+
         show("counter");
         hide('over');
         show('score');
@@ -60,38 +64,40 @@ document.getElementById("box" + k).onclick = function()
                 }
                 else
                 {
+                    attempts--;
+                    document.getElementById('remA').innerHTML = attempts;
+                    console.log(attempts);
                     hide("right");
                     show("wrong");
                     setTimeout(function()
                     {
                         hide("wrong");
                     },1000)
+                    generateQA();
+                    if (attempts==0)
+                    {
+                        showOver();
+                    }
                 }
             }
         }
 }
 //FUNCTIONS!
 //Countdowns timer from 60 to 0.
-function startCountdown()
+function showOver() 
 {
-    action = setInterval(function()
-    {
-        counter -=1;
-        document.getElementById('timeRem').innerHTML = counter;
-        if (counter==0) // game over should be shown
-        {
-         stopCounter();
-         show("over");
-         document.getElementById('plusScore').innerHTML = score;
-         scoreData.push(score);
-         console.log(scoreData);
+        stopCounter();
+        show("over");
+        document.getElementById('plusScore').innerHTML = score;
+        scoreData.push(score);
+        console.log(scoreData);
 
-         hide("counter");
-         hide("right");
-         hide("wrong");
-         hide("score");
-         play = false;
-         document.getElementById('submit').innerHTML = "Start Again!";
+        hide("counter");
+        hide("right");
+        hide("wrong");
+        hide("score");
+        play = false;
+        document.getElementById('submit').innerHTML = "Start Again!";
         if (score>40)
         {
             document.getElementById('over').innerHTML = "<p>Game over!</p>Your score is: " + document.getElementById('plusScore').innerHTML + ". </br>You genius piece of shit!";
@@ -118,9 +124,18 @@ function startCountdown()
             if (scoreData[i]>max)
                 max = scoreData[i];
         }
-         document.getElementById('over').innerHTML+= "</br> All your scores are: "+scoreData +".";
-         document.getElementById('over').innerHTML+= "</br> Maximum score is: "+max +".";
-
+        document.getElementById('over').innerHTML+= "</br> All your scores are: "+scoreData +".";
+        document.getElementById('over').innerHTML+= "</br> Maximum score is: "+max +".";
+}
+function startCountdown()
+{
+    action = setInterval(function()
+    {
+        counter -=1;
+        document.getElementById('timeRem').innerHTML = counter;
+        if (counter==0) // game over should be shown
+        {
+         showOver();
         }
     },1000)
     //scoreData.push(recSCore);
