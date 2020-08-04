@@ -14,6 +14,7 @@ document.getElementById('submit').onclick= function()
          stopCounter();
          hide('score');
          hide('counter');
+         hide('attm');
          document.getElementById('problem').innerHTML = "";
          for (let i =1;i<=4;i++)
          {
@@ -35,6 +36,7 @@ document.getElementById('submit').onclick= function()
 
         show("counter");
         hide('over');
+        show('attm');
         show('score');
         //Do "Reset Game" by updating button inerHtml code
         document.getElementById('submit').innerHTML = "Reset Game";
